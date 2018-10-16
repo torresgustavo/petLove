@@ -30,7 +30,7 @@ public class Register extends AppCompatActivity{
 
 
         private Button bt_cadastrar;
-        private EditText txb_nome, txb_senha, txb_confsenha, txb_email, txb_endereco, txb_bairro, txb_numero, txb_cep;
+        private EditText txb_nome, txb_ultimonome,txb_senha, txb_confsenha, txb_email, txb_endereco, txb_cidade, txb_bairro, txb_numero, txb_cep;
         private Spinner stateSpinner;
         private FirebaseAuth autentication;
         private Users users = new Users();
@@ -45,11 +45,15 @@ public class Register extends AppCompatActivity{
             txb_endereco = (EditText) findViewById(R.id.txb_endereco);
             txb_numero = (EditText) findViewById(R.id.txb_numero);
             txb_cep = (EditText) findViewById(R.id.txb_cep);
+            txb_ultimonome = (EditText) findViewById(R.id.txb_ultimonome);
+            txb_cidade = (EditText) findViewById(R.id.txb_cidade);
             txb_senha = (EditText) findViewById(R.id.txb_senha);
             txb_confsenha = (EditText) findViewById(R.id.txb_confsenha);
             txb_bairro = (EditText) findViewById(R.id.txb_bairro);
             stateSpinner = (Spinner) findViewById(R.id.spinnerState);
             bt_cadastrar = (Button) findViewById(R.id.btn_cadastrar);
+
+            spinnerState();
 
             bt_cadastrar.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -57,7 +61,7 @@ public class Register extends AppCompatActivity{
                     if (txb_nome.getText().toString().equals("") || txb_senha.getText().toString().equals("") ||
                             txb_confsenha.getText().toString().equals("") || txb_bairro.getText().toString().equals("") ||
                             txb_numero.getText().toString().equals("") || txb_email.getText().toString().equals("") ||
-                            txb_cep.getText().toString().equals("") || txb_endereco.getText().toString().equals("")) {
+                            txb_cep.getText().toString().equals("") || txb_endereco.getText().toString().equals("") || txb_ultimonome.getText().toString().equals("") || txb_cidade.getText().toString().equals("")) {
                         Toast.makeText(Register.this, "Preencha todos os campos", Toast.LENGTH_LONG).show();
                     }
                     else if (!txb_confsenha.getText().toString().equals(txb_senha.getText().toString())){
@@ -66,10 +70,12 @@ public class Register extends AppCompatActivity{
                     }
                     else{
                         users.setName(txb_nome.getText().toString());
+                        users.setLastname(txb_ultimonome.getText().toString());
                         users.setEmail(txb_email.getText().toString());
                         users.setPassword(txb_senha.getText().toString());
                         users.setCep(txb_cep.getText().toString());
                         users.setDistrict(txb_bairro.getText().toString());
+                        users.setCity(txb_cidade.getText().toString());
                         users.setNumber(txb_numero.getText().toString());
                         users.setAddress(txb_endereco.getText().toString());
                         users.setStates(stateSpinner.getSelectedItem().toString());

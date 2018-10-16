@@ -1,115 +1,209 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/register"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:clipToPadding="true"
+    android:fillViewport="true"
+    android:orientation="vertical">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Spinner
+            android:id="@+id/spinnerState"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignStart="@+id/txb_numero"
+            android:layout_alignTop="@+id/txb_cidade"
+            android:layout_marginEnd="100dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/txb_cep"
+            app:layout_constraintTop_toBottomOf="@+id/txb_ultimonome" />
+
+        <EditText
+            android:id="@+id/txb_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:ems="10"
+            android:hint="Nome"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.326"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteY="27dp" />
+
+        <EditText
+            android:id="@+id/txb_ultimonome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:ems="10"
+            android:hint="Ultimo Nome"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.326"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txb_name" />
+
+        <EditText
+            android:id="@+id/txb_cep"
+            android:layout_width="128dp"
+            android:layout_height="37dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:ems="10"
+            android:hint="CEP"
+            android:inputType="textPostalAddress"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.208"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txb_ultimonome" />
+
+        <EditText
+            android:id="@+id/txb_cidade"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:ems="10"
+            android:hint="Cidade"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.326"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txb_cep" />
+
+        <EditText
+            android:id="@+id/txb_bairro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="12dp"
+            android:ems="10"
+            android:hint="Bairro"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.326"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txb_endereco" />
+
+        <EditText
+            android:id="@+id/txb_endereco"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="12dp"
+            android:ems="10"
+            android:hint="Endereço"
+            android:inputType="textPostalAddress"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.326"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txb_cidade" />
+
+        <EditText
+            android:id="@+id/txb_numero"
+            android:layout_width="45dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:ems="10"
+            android:hint="Nº"
+            android:inputType="number"
+            app:layout_constraintBottom_toBottomOf="@+id/txb_endereco"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.848"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/txb_endereco"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <EditText
+            android:id="@+id/txb_email"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="12dp"
+            android:ems="10"
+            android:hint="E-Mail"
+            android:inputType="textEmailAddress"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.326"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txb_bairro" />
+
+        <EditText
+            android:id="@+id/txb_senha"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="12dp"
+            android:ems="10"
+            android:hint="Senha"
+            android:inputType="textPassword"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.326"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txb_email" />
+
+        <Button
+            android:id="@+id/btn_cadastrar"
+            android:layout_width="142dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:text="Registrar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.221"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txb_confsenha" />
+
+        <EditText
+            android:id="@+id/txb_confsenha"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:ems="10"
+            android:hint="Confirmação de senha"
+            android:inputType="textPassword"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.326"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txb_senha" /><![CDATA[
 
 
-    <Spinner
-        android:id="@+id/spinnerState"
-        android:layout_width="105dp"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/txb_numero"
-        android:layout_alignTop="@+id/txb_cep" />
 
-    <EditText
-        android:id="@+id/txb_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="21dp"
-        android:layout_marginTop="19dp"
-        android:ems="10"
-        android:hint="Nome"
-        android:inputType="textPersonName" />
 
-    <EditText
-        android:id="@+id/txb_email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/txb_name"
-        android:layout_centerVertical="true"
-        android:ems="10"
-        android:hint="E-Mail"
-        android:inputType="textEmailAddress" />
 
-    <EditText
-        android:id="@+id/txb_endereco"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/txb_name"
-        android:layout_marginTop="172dp"
-        android:ems="10"
-        android:hint="Endereço"
-        android:inputType="textPostalAddress" />
 
-    <EditText
-        android:id="@+id/txb_numero"
-        android:layout_width="57dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/txb_endereco"
-        android:layout_marginEnd="79dp"
-        android:ems="10"
-        android:hint="Nº"
-        android:inputType="number" />
 
-    <EditText
-        android:id="@+id/txb_cep"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/txb_name"
-        android:layout_marginTop="69dp"
-        android:ems="10"
-        android:hint="CEP"
-        android:inputType="textPostalAddress" />
-
-    <EditText
-        android:id="@+id/txb_bairro"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/txb_name"
-        android:layout_marginTop="120dp"
-        android:ems="10"
-        android:hint="Bairro"
-        android:inputType="textPersonName" />
-
-    <EditText
-        android:id="@+id/txb_senha"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/txb_name"
-        android:layout_marginBottom="184dp"
-        android:ems="10"
-        android:hint="Senha"
-        android:inputType="textPassword" />
-
-    <EditText
-        android:id="@+id/txb_confsenha"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/txb_name"
-        android:layout_marginBottom="130dp"
-        android:ems="10"
-        android:hint="Confirmação de senha"
-        android:inputType="textPassword" />
-
-    <Button
-        android:id="@+id/btn_cadastrar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="42dp"
+        "
+        android:layout_marginBottom="19dp"
         android:text="Cadastrar" />
 
-</RelativeLayout>
+
+
+
+
+    ]]>
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>

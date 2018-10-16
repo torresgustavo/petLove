@@ -9,14 +9,14 @@ import java.util.Map;
 import fireBaseConfiguration.fireBaseConfig;
 
 public class Users {
-    private String id ,name, password, email, address, district, number, cep, states;
+    private String id ,name, lastname, password, email, address, city ,district, number, cep, states;
 
     public Users() {
     }
 
     public void save (){
         DatabaseReference reference = fireBaseConfig.getFireBase();
-        reference.child("user").child(String.valueOf(getId())).setValue(this);
+        reference.child("usuarios").child(String.valueOf(getId())).setValue(this);
     }
 
     @Exclude
@@ -25,12 +25,14 @@ public class Users {
 
         hashMapUser.put("id", getId());
         hashMapUser.put("name", getName());
+        hashMapUser.put("lastname", getLastname());
         hashMapUser.put("email", getEmail());
         hashMapUser.put("password", getPassword());
         hashMapUser.put("address", getAddress());
         hashMapUser.put("district", getDistrict());
         hashMapUser.put("number", getNumber());
         hashMapUser.put("cep", getCep());
+        hashMapUser.put("city", getCity());
         hashMapUser.put("states", getStates());
 
         return hashMapUser;
@@ -108,4 +110,19 @@ public class Users {
         this.states = states;
     }
 
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
 }
