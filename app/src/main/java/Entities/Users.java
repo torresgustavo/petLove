@@ -3,10 +3,13 @@ package Entities;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Exclude;
 
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
-import fireBaseConfiguration.fireBaseConfig;
+import fireBaseConfiguration.FireBaseConfig;
 
 public class Users {
     private String id ,name, lastname, password, email, address, city ,district, number, cep, states;
@@ -15,11 +18,25 @@ public class Users {
     }
 
     public void save (){
-        DatabaseReference reference = fireBaseConfig.getFireBase();
+        DatabaseReference reference = FireBaseConfig.getFireBase();
         reference.child("usuarios").child(String.valueOf(getId())).setValue(this);
     }
 
-    @Exclude
+    public static String generateHashPassword (String userPassword) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+
+        MessageDigest algorithm = MessageDigest.getInstance("SHA-256");
+        byte messageDigestPasswordUser[] = algorithm.digest(userPassword.getBytes("UTF-8"));
+
+        StringBuilder hexStringUserPassword = new StringBuilder();
+        for (byte b : messageDigestPasswordUser) {
+            hexStringUserPassword.append(String.format("%02X", 0xFF & b));
+        }
+
+        return hexStringUserPassword.toString();
+
+    }
+
+
     public Map<String, Object> toMap(){
         HashMap<String, Object> hashMapUser = new HashMap<>();
 

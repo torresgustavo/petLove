@@ -21,12 +21,15 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+
 import Entities.Users;
 import Helper.Base64Custom;
 import Helper.Preferences;
-import fireBaseConfiguration.fireBaseConfig;
+import fireBaseConfiguration.FireBaseConfig;
 
-public class Register extends AppCompatActivity{
+public class Activity_Register extends AppCompatActivity{
 
 
         private Button bt_cadastrar;
@@ -38,7 +41,7 @@ public class Register extends AppCompatActivity{
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            setContentView(R.layout.register);
+            setContentView(R.layout.activity_user_register);
 
             txb_nome = (EditText) findViewById(R.id.txb_name);
             txb_email = (EditText) findViewById(R.id.txb_email);
@@ -62,17 +65,26 @@ public class Register extends AppCompatActivity{
                             txb_confsenha.getText().toString().equals("") || txb_bairro.getText().toString().equals("") ||
                             txb_numero.getText().toString().equals("") || txb_email.getText().toString().equals("") ||
                             txb_cep.getText().toString().equals("") || txb_endereco.getText().toString().equals("") || txb_ultimonome.getText().toString().equals("") || txb_cidade.getText().toString().equals("")) {
-                        Toast.makeText(Register.this, "Preencha todos os campos", Toast.LENGTH_LONG).show();
+                        Toast.makeText(Activity_Register.this, "Preencha todos os campos", Toast.LENGTH_LONG).show();
                     }
                     else if (!txb_confsenha.getText().toString().equals(txb_senha.getText().toString())){
-                        Toast.makeText(Register.this, "As senhas inseridas não coincidem, tente novamente.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(Activity_Register.this, "As senhas inseridas não coincidem, tente novamente.", Toast.LENGTH_LONG).show();
                         txb_confsenha.setText("");
                     }
                     else{
+
                         users.setName(txb_nome.getText().toString());
                         users.setLastname(txb_ultimonome.getText().toString());
                         users.setEmail(txb_email.getText().toString());
-                        users.setPassword(txb_senha.getText().toString());
+
+                        try {
+                            users.setPassword(users.generateHashPassword(txb_senha.getText().toString()));
+                        } catch (NoSuchAlgorithmException e) {
+                            e.printStackTrace();
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        }
+
                         users.setCep(txb_cep.getText().toString());
                         users.setDistrict(txb_bairro.getText().toString());
                         users.setCity(txb_cidade.getText().toString());
@@ -89,20 +101,20 @@ public class Register extends AppCompatActivity{
         }
 
         public void registerUser(){
-                autentication = fireBaseConfig.getFireBaseAutentication();
+                autentication = FireBaseConfig.getFireBaseAutentication();
                 autentication.createUserWithEmailAndPassword(users.getEmail(), users.getPassword()
-                ).addOnCompleteListener(Register.this, new OnCompleteListener<AuthResult>() {
+                ).addOnCompleteListener(Activity_Register.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            Toast.makeText(Register.this, "Cadastro realizado com sucesso !", Toast.LENGTH_LONG).show();
+                            Toast.makeText(Activity_Register.this, "Cadastro realizado com sucesso !", Toast.LENGTH_LONG).show();
 
                             String identifierUser = Base64Custom.codifiedBase64(users.getEmail());
                             FirebaseUser userFireBase = task.getResult().getUser();
-                            users.setId(identifierUser);
+                            users.setId(userFireBase.getUid());
                             users.save();
 
-                            Preferences preferences = new Preferences(Register.this);
+                            Preferences preferences = new Preferences(Activity_Register.this);
                             preferences.saveUserPreferences(identifierUser,users.getName());
 
                             openLoginUser();
@@ -121,14 +133,16 @@ public class Register extends AppCompatActivity{
                                 exception = "Erro ao efetuar o cadastro.";
                                 e.printStackTrace();
                             }
-                            Toast.makeText(Register.this, "Erro ao efetuar o cadastro !", Toast.LENGTH_LONG).show();
+                            Toast.makeText(Activity_Register.this, "Erro ao efetuar o cadastro !", Toast.LENGTH_LONG).show();
                         }
                     }
                 });
         }
 
+
+
         public void openLoginUser(){
-            Intent intentOpenLogin = new Intent(Register.this, Login.class);
+            Intent intentOpenLogin = new Intent(Activity_Register.this, Activity_Login.class);
             startActivity(intentOpenLogin);
         }
 

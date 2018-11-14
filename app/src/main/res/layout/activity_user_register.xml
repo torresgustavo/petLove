@@ -162,19 +162,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txb_email" />
 
-        <Button
-            android:id="@+id/btn_cadastrar"
-            android:layout_width="142dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:text="Registrar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.221"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txb_confsenha" />
-
         <EditText
             android:id="@+id/txb_confsenha"
             android:layout_width="wrap_content"
@@ -188,22 +175,19 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.326"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txb_senha" /><![CDATA[
+            app:layout_constraintTop_toBottomOf="@+id/txb_senha" />
 
-
-
-
-
-
-
-        "
-        android:layout_marginBottom="19dp"
-        android:text="Cadastrar" />
-
-
-
-
-
-    ]]>
+        <Button
+            android:id="@+id/btn_cadastrar"
+            android:layout_width="142dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:text="Registrar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.221"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txb_confsenha" />
     </android.support.constraint.ConstraintLayout>
 </ScrollView>
