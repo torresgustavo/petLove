@@ -1,10 +1,36 @@
 package Entities;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Animals {
 
-    private String name, weight, age, race, photoPerfil, photo2, photo3, photo4;
+    private String name, id, weight, age, race, photoPerfil;
+    public Map<String, Boolean> animals = new HashMap<>();
 
     public Animals() {
+    }
+
+    public Animals(String name, String id, String weight, String age, String race, String photoPerfil) {
+        this.name = name;
+        this.id = id;
+        this.weight = weight;
+        this.age = age;
+        this.race = race;
+        this.photoPerfil = photoPerfil;
+    }
+
+    public Map<String, Object> toMap(){
+        HashMap<String, Object> hashMapAnimals = new HashMap<>();
+
+        hashMapAnimals.put("id", getId());
+        hashMapAnimals.put("photoPerfil", getPhotoPerfil());
+        hashMapAnimals.put("name", getName());
+        hashMapAnimals.put("age", getAge());
+        hashMapAnimals.put("race", getRace());
+        hashMapAnimals.put("weigth", getWeight());
+
+        return hashMapAnimals;
     }
 
     public String getPhotoPerfil() {
@@ -13,30 +39,6 @@ public class Animals {
 
     public void setPhotoPerfil(String photoPerfil) {
         this.photoPerfil = photoPerfil;
-    }
-
-    public String getPhoto2() {
-        return photo2;
-    }
-
-    public void setPhoto2(String photo2) {
-        this.photo2 = photo2;
-    }
-
-    public String getPhoto3() {
-        return photo3;
-    }
-
-    public void setPhoto3(String photo3) {
-        this.photo3 = photo3;
-    }
-
-    public String getPhoto4() {
-        return photo4;
-    }
-
-    public void setPhoto4(String photo4) {
-        this.photo4 = photo4;
     }
 
     public String getName() {
@@ -69,5 +71,13 @@ public class Animals {
 
     public void setRace(String race) {
         this.race = race;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

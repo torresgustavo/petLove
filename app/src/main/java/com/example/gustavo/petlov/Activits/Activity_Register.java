@@ -1,25 +1,37 @@
-package com.example.gustavo.petlov.Activity;
+package com.example.gustavo.petlov.Activits;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.gustavo.petlov.R;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthEmailException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
@@ -29,19 +41,29 @@ import Helper.Base64Custom;
 import Helper.Preferences;
 import fireBaseConfiguration.FireBaseConfig;
 
-public class Activity_Register extends AppCompatActivity{
+public class Activity_Register extends AppCompatActivity
+{
 
 
-        private Button bt_cadastrar;
-        private EditText txb_nome, txb_ultimonome,txb_senha, txb_confsenha, txb_email, txb_endereco, txb_cidade, txb_bairro, txb_numero, txb_cep;
+    private static final int RC_SIGN_IN = 9001;
+    private static final String TAG = "GoogleActivity";
+
+    private Button bt_cadastrar;
+        private EditText txb_nome, txb_ultimonome,txb_senha,
+                txb_confsenha, txb_email, txb_endereco, txb_cidade,
+                txb_bairro, txb_numero, txb_cep;
+
         private Spinner stateSpinner;
-        private FirebaseAuth autentication;
+        private FirebaseAuth autentication = FireBaseConfig.getFireBaseAutentication();
+
+        private SignInButton bt_cadGoogle;
         private Users users = new Users();
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_user_register);
+
 
             txb_nome = (EditText) findViewById(R.id.txb_name);
             txb_email = (EditText) findViewById(R.id.txb_email);
@@ -55,6 +77,7 @@ public class Activity_Register extends AppCompatActivity{
             txb_bairro = (EditText) findViewById(R.id.txb_bairro);
             stateSpinner = (Spinner) findViewById(R.id.spinnerState);
             bt_cadastrar = (Button) findViewById(R.id.btn_cadastrar);
+            bt_cadGoogle = findViewById(R.id.btn_googleRegister);
 
             spinnerState();
 
@@ -72,11 +95,9 @@ public class Activity_Register extends AppCompatActivity{
                         txb_confsenha.setText("");
                     }
                     else{
-
                         users.setName(txb_nome.getText().toString());
                         users.setLastname(txb_ultimonome.getText().toString());
                         users.setEmail(txb_email.getText().toString());
-
                         try {
                             users.setPassword(users.generateHashPassword(txb_senha.getText().toString()));
                         } catch (NoSuchAlgorithmException e) {
@@ -84,7 +105,6 @@ public class Activity_Register extends AppCompatActivity{
                         } catch (UnsupportedEncodingException e) {
                             e.printStackTrace();
                         }
-
                         users.setCep(txb_cep.getText().toString());
                         users.setDistrict(txb_bairro.getText().toString());
                         users.setCity(txb_cidade.getText().toString());
@@ -92,16 +112,23 @@ public class Activity_Register extends AppCompatActivity{
                         users.setAddress(txb_endereco.getText().toString());
                         users.setStates(stateSpinner.getSelectedItem().toString());
 
-                        registerUser();
+                        registerUserWithEmail();
                     }
-
-
                 }
             });
+
+            bt_cadGoogle.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    signIn();
+                }
+            });
+
+
         }
 
-        public void registerUser(){
-                autentication = FireBaseConfig.getFireBaseAutentication();
+
+        public void registerUserWithEmail(){
                 autentication.createUserWithEmailAndPassword(users.getEmail(), users.getPassword()
                 ).addOnCompleteListener(Activity_Register.this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -139,18 +166,56 @@ public class Activity_Register extends AppCompatActivity{
                 });
         }
 
+        private void signIn() {
+            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestIdToken(getString(R.string.default_web_client_id))
+                    .requestEmail()
+                    .build();
 
+            GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+            Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+            startActivityForResult(signInIntent, RC_SIGN_IN);
+        }
+
+        @Override
+        public void onActivityResult(int requestCode, int resultCode, Intent data) {
+            super.onActivityResult(requestCode, resultCode, data);
+
+            // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+            if (requestCode == RC_SIGN_IN) {
+                Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+                try {
+                    // Google Sign In was successful, authenticate with Firebase
+                    GoogleSignInAccount account = task.getResult(ApiException.class);
+                    firebaseAuthWithGoogle(account);
+                } catch (ApiException e) {
+                    // Google Sign In failed, update UI appropriately
+                    Log.w(TAG, "Google sign in failed", e);
+                    // ...
+                }
+            }
+        }
 
         public void openLoginUser(){
             Intent intentOpenLogin = new Intent(Activity_Register.this, Activity_Login.class);
             startActivity(intentOpenLogin);
         }
 
-        public void spinnerState(){
+    private void firebaseAuthWithGoogle(final GoogleSignInAccount acct) {
+        Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
+
+        txb_nome.setText(acct.getDisplayName());
+        txb_email.setText(acct.getEmail());
+        txb_ultimonome.setText(acct.getFamilyName());
+    }
+
+    public void spinnerState(){
 
             ArrayAdapter<String> stateAdapter = new ArrayAdapter<String>(this,
                     android.R.layout.simple_expandable_list_item_1, getResources().getStringArray(R.array.states));
             stateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             stateSpinner.setAdapter(stateAdapter);
         }
+
 }

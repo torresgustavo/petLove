@@ -1,13 +1,17 @@
-package com.example.gustavo.petlov.Activity;
+package com.example.gustavo.petlov.Activits;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 
 import com.example.gustavo.petlov.R;
@@ -31,7 +35,8 @@ public class Activity_ViewPetUser extends AppCompatActivity {
     private DatabaseReference firebase;
     private FirebaseAuth userFireBase = FireBaseConfig.getFireBaseAutentication();
     private ValueEventListener valueEventListenerAnimals;
-    private Button btnVoltar;
+
+    private Animals petsSel;
 
 
     @Override
@@ -67,11 +72,22 @@ public class Activity_ViewPetUser extends AppCompatActivity {
             }
         };
 
-        btnVoltar = findViewById(R.id.btn_Voltar);
-        btnVoltar.setOnClickListener(new View.OnClickListener() {
+        listAnimals.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View view) {
-                voltarMenu();
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                petsSel = adapterAnimals.getItem(i);
+                Bundle data = new Bundle();
+                data.putString("name", petsSel.getName());
+                data.putString("age", petsSel.getAge());
+                data.putString("weigth", petsSel.getWeight());
+                data.putString("race", petsSel.getRace());
+                data.putString("img", petsSel.getPhotoPerfil());
+                data.putString("id", petsSel.getId());
+
+
+                Intent editar = new Intent(Activity_ViewPetUser.this, Activity_EditorPet.class);
+                editar.putExtras(data);
+                startActivity(editar);
             }
         });
     }
@@ -88,8 +104,10 @@ public class Activity_ViewPetUser extends AppCompatActivity {
         super.onStop();
     }
 
-    private void voltarMenu(){
-        Intent intent = new Intent(Activity_ViewPetUser.this, Activity_Principal.class);
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(Activity_ViewPetUser.this, Activity_MenuUser.class);
         startActivity(intent);
     }
 }

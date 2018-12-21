@@ -1,4 +1,4 @@
-package com.example.gustavo.petlov.Activity;
+package com.example.gustavo.petlov.Activits;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -86,7 +86,7 @@ public class Activity_Login extends AppCompatActivity {
         startActivity(intent);
     }
     public void openMenu(){
-        Intent intentOpenMenu = new Intent(Activity_Login.this, Activity_Principal.class);
+        Intent intentOpenMenu = new Intent(Activity_Login.this, Activity_MenuUser.class);
         startActivity(intentOpenMenu);
     }
 }

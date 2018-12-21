@@ -5,7 +5,7 @@
     android:id="@+id/login"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.Activity_Login"
+    tools:context=".Activits.Activity_Login"
     tools:layout_editor_absoluteY="73dp">
 
     <EditText

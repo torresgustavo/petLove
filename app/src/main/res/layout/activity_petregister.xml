@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    tools:context=".Activity.Activity_PetRegister">
+    tools:context=".Activits.Activity_PetRegister">
 
     <TextView
         android:layout_width="wrap_content"

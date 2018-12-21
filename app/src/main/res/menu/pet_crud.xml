@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/save_editPet"
+        android:icon="@drawable/ic_save"
+        android:title="Salvar" />
+
+    <item
+        android:id="@+id/remove_pet"
+        android:icon="@drawable/ic_remove"
+        android:title="Excluir" />
+
+</menu>

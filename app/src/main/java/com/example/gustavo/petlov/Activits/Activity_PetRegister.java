@@ -1,4 +1,4 @@
-package com.example.gustavo.petlov.Activity;
+package com.example.gustavo.petlov.Activits;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -23,20 +23,17 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.Console;
-
 import fireBaseConfiguration.FireBaseConfig;
 import Entities.Animals;
 
 public class Activity_PetRegister extends AppCompatActivity {
 
-    private Button btn_savePet, btn_voltar;
+    private Button btn_savePet;
     private Animals pets = new Animals();
     private FirebaseAuth userFireBase = FireBaseConfig.getFireBaseAutentication();
     private EditText edt_Name, edt_Race, edt_Age, edt_Weight;
     private ImageView petImage;
     private static Uri selectedImage;
-    private DatabaseReference firebase;
     private FirebaseStorage storage = FirebaseStorage.getInstance();
 
 
@@ -60,7 +57,6 @@ public class Activity_PetRegister extends AppCompatActivity {
             public void onClick(View view) {
                 Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(galleryIntent, RESULT_LOAD_IMAGE);
-
             }
         });
 
@@ -75,18 +71,11 @@ public class Activity_PetRegister extends AppCompatActivity {
                 uploadImage(selectedImage);
             }
         });
-
-        btn_voltar = (Button) findViewById(R.id.btn_Voltar);
-        btn_voltar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                voltarMenu();
-            }
-        });
     }
 
     private void registerPet (Animals pets){
-        firebase = FireBaseConfig.getFireBase().child("usuarios").child(userFireBase.getUid()).child("pets").push();
+        DatabaseReference firebase = FireBaseConfig.getFireBase().child("usuarios").child(userFireBase.getUid()).child("pets").push();
+        pets.setId(firebase.getKey());
         firebase.setValue(pets);
 
 
@@ -101,8 +90,10 @@ public class Activity_PetRegister extends AppCompatActivity {
         edt_Name.setText("");
     }
 
-    private void voltarMenu(){
-        Intent intent = new Intent(Activity_PetRegister.this, Activity_Principal.class);
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(Activity_PetRegister.this, Activity_MenuUser.class);
         startActivity(intent);
     }
 
@@ -118,7 +109,7 @@ public class Activity_PetRegister extends AppCompatActivity {
     public boolean uploadImage (Uri selectedImage){
         StorageReference storageRef = storage.getReference();
 
-        final StorageReference petsRef = storageRef.child("pets/"+userFireBase.getUid()+"/"+pets.getName()+"/"+selectedImage.getLastPathSegment());
+        final StorageReference petsRef = storageRef.child("pets/"+userFireBase.getUid()+"/"+pets.getName()+"/");
         UploadTask uploadTask = petsRef.putFile(selectedImage);
 
         uploadTask.addOnFailureListener(new OnFailureListener() {
@@ -134,14 +125,7 @@ public class Activity_PetRegister extends AppCompatActivity {
                 petsRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
-                        System.out.println(uri.toString());
-                        pets.setPhotoPerfil(uri.toString());
-                        pets.setPhoto2("");
-                        pets.setPhoto3("");
-                        pets.setPhoto4("");
 
-                        registerPet(pets);
-                        limparCampos();
                     }
                 });
             }

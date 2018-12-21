@@ -5,7 +5,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -13,17 +12,32 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.Activity_Login">
+        <activity android:name=".Activits.Activity_Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.Activity_Register" />
-        <activity android:name=".Activity.Activity_Principal" />
-        <activity android:name=".Activity.Activity_PetRegister" />
-        <activity android:name=".Activity.Activity_ViewPetUser"></activity>
+        <activity
+            android:name=".Activits.Activity_Register"
+            android:label="Cadastrar"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activits.Activity_PetRegister"
+            android:label="Registrar Pet"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activits.Activity_ViewPetUser"
+            android:label="Meus Pets"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activits.Activity_EditorPet"
+            android:label="Editar Pet"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activits.Activity_MenuUser"
+            android:label="@string/title_activity_menu_user"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
